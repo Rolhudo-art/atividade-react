@@ -1,11 +1,10 @@
 import React from "react";
-import Container from "./componentes/container";
-import Texto from "./componentes/texto";
+import Welcome from './pages/welcome';
+import Login from './pages/login';
+import Cadastro from './pages/cadastro';
 
-export default function App(){
-  return(
-    <Container>
-      <Texto>Corinthians Melhor do mundo</Texto>
-    </Container>
+export default function App() {
+  return (
+    <Welcome /> 
   );
 }

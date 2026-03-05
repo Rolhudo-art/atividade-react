@@ -7,7 +7,14 @@ import {
   ImageBackground 
 } from 'react-native';
 
-export default function Welcome() {
+export default function Welcome({navigation}) {
+
+  function Cadastro(){
+
+navigation.navigate("Cadastro")
+
+  }
+
   return (
     <ImageBackground 
       source={{ uri: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=1600' }} 
@@ -32,15 +39,22 @@ export default function Welcome() {
           </Text>
 
           {/* Área de Botões */}
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.buttonPrimary}>
-              <Text style={styles.buttonTextPrimary}>LOGAR</Text>
-            </TouchableOpacity>
+        {/* Área de Botões */}
+<View style={styles.buttonContainer}>
+  <TouchableOpacity 
+    style={styles.buttonPrimary}
+    onPress={() => navigation.navigate("Login")}
+  >
+    <Text style={styles.buttonTextPrimary}>LOGAR</Text>
+  </TouchableOpacity>
 
-            <TouchableOpacity style={styles.buttonSecondary}>
-              <Text style={styles.buttonTextSecondary}>CADASTRAR</Text>
-            </TouchableOpacity>
-          </View>
+  <TouchableOpacity 
+    style={styles.buttonSecondary}
+    onPress={() => navigation.navigate("Cadastro")}
+  >
+    <Text style={styles.buttonTextSecondary}>CADASTRAR</Text>
+  </TouchableOpacity>
+</View>
         </View>
       </View>
     </ImageBackground>

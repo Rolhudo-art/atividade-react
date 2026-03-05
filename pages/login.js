@@ -8,7 +8,7 @@ import {
   ImageBackground 
 } from 'react-native';
 
-export default function Login() {
+export default function Login({navigation}) {
   return (
     <ImageBackground 
       source={{ uri: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=1600' }} 
@@ -37,7 +37,7 @@ export default function Login() {
             <Text style={styles.buttonText}>ENTRAR</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity>
+          <TouchableOpacity onPress={()=>{navigation.navigate("Cadastro")}}>
             <Text style={styles.link}>Criar uma conta</Text>
           </TouchableOpacity>
         </View>

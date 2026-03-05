@@ -8,7 +8,7 @@ import {
   ImageBackground 
 } from 'react-native';
 
-export default function Cadastro() {
+export default function Cadastro({navigation}) {
   return (
     <ImageBackground 
       source={{ uri: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=1600' }} 
@@ -54,7 +54,7 @@ export default function Cadastro() {
           <Text style={styles.buttonText}>CADASTRAR</Text>
         </TouchableOpacity>
         
-        <TouchableOpacity style={styles.buttonSecondary}>
+        <TouchableOpacity style={styles.buttonSecondary} onPress={()=>navigation.navigate("Login")}>
           <Text style={styles.backText}>Já tenho uma conta? Entrar</Text>
         </TouchableOpacity>
       </View>

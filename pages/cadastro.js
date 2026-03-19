@@ -1,71 +1,98 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { 
   StyleSheet, 
   Text, 
   View, 
   TextInput, 
   TouchableOpacity, 
-  ImageBackground 
+  ImageBackground,
+  Alert
 } from 'react-native';
 
 export default function Cadastro({navigation}) {
+
+  const [nome, setNome] = useState("");
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
+  const [confirmSenha, setConfirmSenha] = useState("");
+
+  function Cadastrar(){
+
+    if(nome === "" || email === "" || senha === "" || confirmSenha === ""){
+      Alert.alert("ERRO", "Preencha todos os campos!");
+    }
+    else if(senha !== confirmSenha){
+      Alert.alert("ERRO", "As senhas não coincidem!");
+    }
+    else{
+      Alert.alert("Sucesso!", "Conta criada com sucesso!");
+      navigation.navigate("Login");
+    }
+
+  }
+
   return (
     <ImageBackground 
       source={{ uri: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=1600' }} 
       style={styles.background}
     >
       <View style={styles.overlay}>
-        {/* Branding */}
-        <Text style={styles.logo}>FUT<Text style={styles.span}>API</Text></Text>
+        
+        <Text style={styles.logo}>
+          FUT<Text style={styles.span}>API</Text>
+        </Text>
         
         <Text style={styles.title}>CRIAR CONTA</Text>
 
-        {/* Campos de Usuário */}
         <TextInput 
           style={styles.input} 
           placeholder="Nome Completo" 
-          placeholderTextColor="#888" 
+          placeholderTextColor="#888"
+          value={nome}
+          onChangeText={setNome}
         />
 
         <TextInput 
           style={styles.input} 
           placeholder="E-mail" 
-          placeholderTextColor="#888" 
-          keyboardType="email-address"
-          autoCapitalize="none"
+          placeholderTextColor="#888"
+          value={email}
+          onChangeText={setEmail}
         />
 
         <TextInput 
           style={styles.input} 
           placeholder="Senha" 
-          placeholderTextColor="#888" 
-          secureTextEntry={true} 
+          placeholderTextColor="#888"
+          secureTextEntry={true}
+          value={senha}
+          onChangeText={setSenha}
         />
 
         <TextInput 
           style={styles.input} 
           placeholder="Confirmar Senha" 
-          placeholderTextColor="#888" 
-          secureTextEntry={true} 
+          placeholderTextColor="#888"
+          secureTextEntry={true}
+          value={confirmSenha}
+          onChangeText={setConfirmSenha}
         />
 
-        {/* Botões de Ação */}
-        <TouchableOpacity style={styles.buttonPrimary}>
+        <TouchableOpacity style={styles.buttonPrimary} onPress={Cadastrar}>
           <Text style={styles.buttonText}>CADASTRAR</Text>
         </TouchableOpacity>
         
         <TouchableOpacity style={styles.buttonSecondary} onPress={()=>navigation.navigate("Login")}>
           <Text style={styles.backText}>Já tenho uma conta? Entrar</Text>
         </TouchableOpacity>
+
       </View>
     </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
-  background: { 
-    flex: 1 
-  },
+  background: { flex: 1 },
   overlay: { 
     flex: 1, 
     backgroundColor: 'rgba(10,10,10,0.9)', 
@@ -79,9 +106,7 @@ const styles = StyleSheet.create({
     textAlign: 'center', 
     marginBottom: 10 
   },
-  span: { 
-    color: '#e2fd10' 
-  },
+  span: { color: '#e2fd10' },
   title: { 
     color: '#e2fd10', 
     fontSize: 18, 

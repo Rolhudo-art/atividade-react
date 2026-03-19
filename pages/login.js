@@ -1,14 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { 
   StyleSheet, 
   Text, 
   View, 
   TextInput, 
   TouchableOpacity, 
-  ImageBackground 
+  ImageBackground,
+  Alert
 } from 'react-native';
 
 export default function Login({navigation}) {
+
+  const [user, setUser] = useState("");
+  const [pass, setPass] = useState("");
+
+  function Logar(){
+    if(user === "" || pass === ""){
+      Alert.alert("ERRO", "Favor preencher todos os campos!");
+    } 
+    else if(user === "Matheus" && pass === "123"){
+      Alert.alert("Sucesso!", "Usuário logado com sucesso!");
+      navigation.navigate("Welcome");
+    } 
+    else{
+      Alert.alert("ERRO!", "Usuário não cadastrado!");
+    }
+  }
+
   return (
     <ImageBackground 
       source={{ uri: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=1600' }} 
@@ -16,30 +34,38 @@ export default function Login({navigation}) {
     >
       <View style={styles.overlay}>
         <View style={styles.container}>
-          <Text style={styles.logo}>FUT<Text style={styles.span}>API</Text></Text>
+          
+          <Text style={styles.logo}>
+            FUT<Text style={styles.span}>API</Text>
+          </Text>
           
           <Text style={styles.title}>LOGIN</Text>
 
           <TextInput 
             style={styles.input} 
-            placeholder="E-mail" 
-            placeholderTextColor="#888" 
+            placeholder="Usuário" 
+            placeholderTextColor="#888"
+            value={user}
+            onChangeText={setUser}
           />
           
           <TextInput 
             style={styles.input} 
             placeholder="Senha" 
             placeholderTextColor="#888" 
-            secureTextEntry={true} 
+            secureTextEntry={true}
+            value={pass}
+            onChangeText={setPass}
           />
 
-          <TouchableOpacity style={styles.buttonPrimary}>
+          <TouchableOpacity style={styles.buttonPrimary} onPress={Logar}>
             <Text style={styles.buttonText}>ENTRAR</Text>
           </TouchableOpacity>
 
           <TouchableOpacity onPress={()=>{navigation.navigate("Cadastro")}}>
             <Text style={styles.link}>Criar uma conta</Text>
           </TouchableOpacity>
+
         </View>
       </View>
     </ImageBackground>

@@ -20,7 +20,7 @@ export default function Login({navigation}) {
     } 
     else if(user === "Matheus" && pass === "123"){
       Alert.alert("Sucesso!", "Usuário logado com sucesso!");
-      navigation.navigate("Welcome");
+      navigation.navigate("Cep");
     } 
     else{
       Alert.alert("ERRO!", "Usuário não cadastrado!");

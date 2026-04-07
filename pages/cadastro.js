@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { 
   StyleSheet, 
   Text, 
@@ -11,24 +12,63 @@ import {
 
 export default function Cadastro({navigation}) {
 
-  const [nome, setNome] = useState("");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
-  const [confirmSenha, setConfirmSenha] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false); // ✅ ADICIONADO
 
-  function Cadastrar(){
+  async function Cadastrar(){
 
-    if(nome === "" || email === "" || senha === "" || confirmSenha === ""){
+    if(name === "" || email === "" || password === "" || confirmPassword === ""){
       Alert.alert("ERRO", "Preencha todos os campos!");
-    }
-    else if(senha !== confirmSenha){
-      Alert.alert("ERRO", "As senhas não coincidem!");
-    }
-    else{
-      Alert.alert("Sucesso!", "Conta criada com sucesso!");
-      navigation.navigate("Login");
+      return;
     }
 
+    if(password !== confirmPassword){
+      Alert.alert("ERRO", "As senhas não coincidem!");
+      return;
+    }
+
+    const values = {
+      name: name,
+      email: email,
+      password: password,
+      password_confirmation: confirmPassword,
+    };
+
+    setLoading(true); // ✅ ADICIONADO
+
+    try {
+      const response = await axios.post(
+        "http://10.0.2.2:8000/api/auth/register",
+        values,
+        {
+          timeout: 5000
+        }
+      );
+
+      console.log("RESPOSTA:", response.data);
+
+      Alert.alert("Sucesso!", "Usuário cadastrado com sucesso!");
+      navigation.navigate("Login");
+
+    } catch (error) {
+
+      console.log("ERRO COMPLETO:", error);
+
+      if (error.response) {
+        console.log("ERRO BACKEND:", error.response.data);
+        Alert.alert("Erro", error.response.data.message || "Erro no servidor");
+      } else if (error.request) {
+        Alert.alert("Erro", "Servidor não respondeu (verifique IP/Laravel)");
+      } else {
+        Alert.alert("Erro", "Erro inesperado");
+      }
+
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -48,8 +88,8 @@ export default function Cadastro({navigation}) {
           style={styles.input} 
           placeholder="Nome Completo" 
           placeholderTextColor="#888"
-          value={nome}
-          onChangeText={setNome}
+          value={name}
+          onChangeText={setName}
         />
 
         <TextInput 
@@ -58,6 +98,7 @@ export default function Cadastro({navigation}) {
           placeholderTextColor="#888"
           value={email}
           onChangeText={setEmail}
+          keyboardType="email-address"
         />
 
         <TextInput 
@@ -65,8 +106,8 @@ export default function Cadastro({navigation}) {
           placeholder="Senha" 
           placeholderTextColor="#888"
           secureTextEntry={true}
-          value={senha}
-          onChangeText={setSenha}
+          value={password}
+          onChangeText={setPassword}
         />
 
         <TextInput 
@@ -74,22 +115,31 @@ export default function Cadastro({navigation}) {
           placeholder="Confirmar Senha" 
           placeholderTextColor="#888"
           secureTextEntry={true}
-          value={confirmSenha}
-          onChangeText={setConfirmSenha}
+          value={confirmPassword}
+          onChangeText={setConfirmPassword}
         />
 
-        <TouchableOpacity style={styles.buttonPrimary} onPress={Cadastrar}>
-          <Text style={styles.buttonText}>CADASTRAR</Text>
+        <TouchableOpacity 
+          style={styles.buttonPrimary} 
+          onPress={Cadastrar}
+          disabled={loading}
+        >
+          <Text style={styles.buttonText}>
+            {loading ? "Cadastrando..." : "CADASTRAR"}
+          </Text>
         </TouchableOpacity>
         
-        <TouchableOpacity style={styles.buttonSecondary} onPress={()=>navigation.navigate("Login")}>
+        <TouchableOpacity 
+          style={styles.buttonSecondary} 
+          onPress={()=>navigation.navigate("Login")}
+        >
           <Text style={styles.backText}>Já tenho uma conta? Entrar</Text>
         </TouchableOpacity>
 
       </View>
     </ImageBackground>
   );
-}
+} // ✅ CHAVE CORRETA — fecha o componente Cadastro
 
 const styles = StyleSheet.create({
   background: { flex: 1 },

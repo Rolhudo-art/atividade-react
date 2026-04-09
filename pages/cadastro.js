@@ -16,7 +16,7 @@ export default function Cadastro({navigation}) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [loading, setLoading] = useState(false); // ✅ ADICIONADO
+  const [loading, setLoading] = useState(false);
 
   async function Cadastrar(){
 
@@ -37,7 +37,7 @@ export default function Cadastro({navigation}) {
       password_confirmation: confirmPassword,
     };
 
-    setLoading(true); // ✅ ADICIONADO
+    setLoading(true);
 
     try {
       const response = await axios.post(
@@ -139,7 +139,7 @@ export default function Cadastro({navigation}) {
       </View>
     </ImageBackground>
   );
-} // ✅ CHAVE CORRETA — fecha o componente Cadastro
+}
 
 const styles = StyleSheet.create({
   background: { flex: 1 },
